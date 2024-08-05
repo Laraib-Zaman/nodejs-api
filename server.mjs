@@ -14,6 +14,28 @@ const port = process.env.PORT || 3100;
 
 const upload = multer({ dest: 'uploads/' });
 
+// Serve static files (e.g., CSS)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Landing page route
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <head>
+        <title>Text Extraction API</title>
+      </head>
+      <body>
+        <h1>Hello, welcome to the Text Extraction API</h1>
+        <form action="/extract-text" method="post" enctype="multipart/form-data">
+          <label for="image">Upload an image:</label><br>
+          <input type="file" name="image" accept="image/*" required><br><br>
+          <input type="submit" value="Extract Text">
+        </form>
+      </body>
+    </html>
+  `);
+});
+
 app.post('/extract-text', upload.single('image'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No image provided' });

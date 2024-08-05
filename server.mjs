@@ -4,6 +4,11 @@ import Lens from 'chrome-lens-ocr'; // Default import
 const app = express();
 const port = process.env.PORT || 3100;
 
+// Simple GET endpoint
+app.get('/', (req, res) => {
+  res.send('Hello, welcome to the Text Extraction API!');
+});
+
 // Middleware to parse raw image data
 app.use(express.raw({ type: 'image/*', limit: '10mb' }));
 
